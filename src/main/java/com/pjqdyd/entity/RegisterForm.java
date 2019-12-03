@@ -4,10 +4,10 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
- * 接收表单的类
+ * 注册接收表单的类
  */
 @Data
-public class ReceiveForm {
+public class RegisterForm {
 
     @NotBlank
     private Integer studentId; //学号

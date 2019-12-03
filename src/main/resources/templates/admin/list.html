@@ -1,67 +1,72 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>表单列表</title>
+    <title>用户列表</title>
+    <link href="/css/list.css", rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-<div style="width: 1480px; height: 640px; margin: auto" >
-  <div class="container-fluid">
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <table class="table table-bordered table-condensed">
-                <thead>
-                <tr>
-                    <th>表单Id</th>
-                    <th>电话</th>
-                    <th>验证码</th>
-                    <th>密码</th>
-                    <th>提交时间</th>
-                    <th>更新时间</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                 <#list formPage.content as form>
-                  <tr>
-                      <td>${form.formId}</td>
-                      <td>${form.telephone}</td>
-                      <td>${form.token}</td>
-                      <td>${form.password}</td>
-                      <td>${form.createTime}</td>
-                      <td>${form.updateTime}</td>
-                      <td>取消表单</td>
-                  </tr>
-                 </#list>
-                </tbody>
+<div style="width: 80%; height: 700px; margin: auto">
+    <div class="header-box">
+        <div><img src="/imgs/list.png" style="width: 50px; height: 50px; margin: 5px;"/></div>
+        <strong style="font-size: 30px">学生信息管理面板</strong>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                    <tr>
+                        <th>用户Id</th>
+                        <th>用户名</th>
+                        <th>学号</th>
+                        <th>密码</th>
+                        <th>提交时间</th>
+                        <th>更新时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#list formPage.content as form>
+                        <tr>
+                            <td>${form.formId}</td>
+                            <td>${form.username}</td>
+                            <td>${form.studentId}</td>
+                            <td>${"******"}</td>
+                            <td>${form.createTime}</td>
+                            <td>${form.updateTime}</td>
+                            <td>删除</td>
+                        </tr>
+                    </#list>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
         </div>
     </div>
-  </div>
     <#--分页-->
     <div class="col-md-12 column">
         <ul class="pagination pull-right">
-                    <#if currentPage lte 1>
-                        <li class="disabled"><a href="#">上一页</a></li>
-                    <#else>
-                        <li><a href="/admin/form/list?page=${currentPage - 1}&size=${size}">上一页</a></li>
-                    </#if>
+            <#if currentPage lte 1>
+                <li class="disabled"><a href="#">上一页</a></li>
+            <#else>
+                <li><a href="/admin/form/list?page=${currentPage - 1}&size=${size}">上一页</a></li>
+            </#if>
 
-                    <#list 1..formPage.getTotalPages() as index>
-                        <#if currentPage == index>
-                            <li class="disabled"><a href="#">${index}</a></li>
-                        <#else>
-                            <li><a href="/admin/form/list?page=${index}&size=${size}">${index}</a></li>
-                        </#if>
-                    </#list>
+            <#list 1..formPage.getTotalPages() as index>
+                <#if currentPage == index>
+                    <li class="disabled"><a href="#">${index}</a></li>
+                <#else>
+                    <li><a href="/admin/form/list?page=${index}&size=${size}">${index}</a></li>
+                </#if>
+            </#list>
 
-                    <#if currentPage gte formPage.getTotalPages()>
-                        <li class="disabled"><a href="#">下一页</a></li>
-                    <#else>
-                        <li><a href="/admin/form/list?page=${currentPage + 1}&size=${size}">下一页</a></li>
-                    </#if>
+            <#if currentPage gte formPage.getTotalPages()>
+                <li class="disabled"><a href="#">下一页</a></li>
+            <#else>
+                <li><a href="/admin/form/list?page=${currentPage + 1}&size=${size}">下一页</a></li>
+            </#if>
         </ul>
     </div>
 </div>

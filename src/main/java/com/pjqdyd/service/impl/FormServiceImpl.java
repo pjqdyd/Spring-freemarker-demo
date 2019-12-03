@@ -25,6 +25,11 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    public Form login(String username, String password) {
+        return formRepository.findFormByUsernameEqualsAndAndPasswordEquals(username, password);
+    }
+
+    @Override
     public Form findOne(Integer id) {
         return formRepository.findOne(id);
     }

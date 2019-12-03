@@ -32,7 +32,6 @@ public class AdminFormController {
         map.put("currentPage",page);
         map.put("size",size);
 
-
         return new ModelAndView("/admin/list",map);
     }
 

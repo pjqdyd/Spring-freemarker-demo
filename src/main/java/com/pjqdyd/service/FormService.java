@@ -12,6 +12,9 @@ public interface FormService {
     //创建表单
     Form create(Form form);
 
+    //用户登录
+    Form login(String username, String password);
+
     //通过form_id查询表单
     Form findOne(Integer id);
 

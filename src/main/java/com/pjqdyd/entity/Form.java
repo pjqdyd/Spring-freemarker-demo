@@ -1,6 +1,7 @@
 package com.pjqdyd.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Form {
     @Column(unique = true)
     private String username; //用户名
 
+    @JsonIgnore
     private String password; //密码
 
     private String token; //用户token

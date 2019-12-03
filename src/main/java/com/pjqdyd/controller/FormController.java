@@ -1,7 +1,8 @@
 package com.pjqdyd.controller;
 
 import com.pjqdyd.entity.Form;
-import com.pjqdyd.entity.ReceiveForm;
+import com.pjqdyd.entity.LoginForm;
+import com.pjqdyd.entity.RegisterForm;
 import com.pjqdyd.service.FormService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.Map;
 @RequestMapping("/form")
 public class FormController {
     @Autowired
-    private FormService formRepository;
+    private FormService formService;
 
     @GetMapping("/index")
     public ModelAndView index(){
@@ -30,7 +31,7 @@ public class FormController {
      * 注册接口
      */
     @PostMapping("/register")
-    public ModelAndView save(@Valid ReceiveForm form, BindingResult bindingResult, Map<String,Object> map){
+    public ModelAndView register(@Valid RegisterForm form, BindingResult bindingResult, Map<String,Object> map){
         if(bindingResult.hasErrors()){
             map.put("msg",bindingResult.getFieldError().getDefaultMessage());
             map.put("url","/form/index");
@@ -39,7 +40,7 @@ public class FormController {
         Form newForm = new Form();
         try {
             BeanUtils.copyProperties(form,newForm);
-            formRepository.create(newForm);
+            formService.create(newForm);
         } catch (Exception e) {
             map.put("msg",e.getMessage());
             map.put("url","/form/index");
@@ -47,6 +48,28 @@ public class FormController {
         }
 
         map.put("url","/form/index");
+        System.out.println(form.toString());
+        return new ModelAndView("/result/success", map);
+    }
+
+    /**
+     * 登录接口
+     */
+    @PostMapping("/login")
+    public ModelAndView login(@Valid LoginForm loginForm, BindingResult bindingResult, Map<String,Object> map){
+        if(bindingResult.hasErrors()){
+            map.put("msg",bindingResult.getFieldError().getDefaultMessage());
+            map.put("url","/form/index");
+            return new ModelAndView("/result/error");
+        }
+        Form form = formService.login(loginForm.getUsername(), loginForm.getPassword());
+        if (form == null){
+            map.put("msg", "用户名不存在, 或密码错误");
+            map.put("url","/form/index");
+            return new ModelAndView("/result/error");
+        }
+
+        map.put("url","/admin/form/list");
         System.out.println(form.toString());
         return new ModelAndView("/result/success", map);
     }
