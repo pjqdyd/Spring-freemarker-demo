@@ -14,27 +14,21 @@
                 <thead>
                 <tr>
                     <th>表单Id</th>
-                    <th>姓名</th>
-                    <th>年龄</th>
-                    <th>性别</th>
-                    <th>喜爱的类型</th>
-                    <th>看过的电影</th>
-                    <th>对电影评价</th>
+                    <th>电话</th>
+                    <th>验证码</th>
+                    <th>密码</th>
                     <th>提交时间</th>
                     <th>更新时间</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                 <#list movieFormPage.content as form>
+                 <#list formPage.content as form>
                   <tr>
                       <td>${form.formId}</td>
-                      <td>${form.name}</td>
-                      <td>${form.age}</td>
-                      <td>${form.sex}</td>
-                      <td>${form.favoriteType}</td>
-                      <td>${form.seenMovie}</td>
-                      <td>${form.evaluate}</td>
+                      <td>${form.telephone}</td>
+                      <td>${form.token}</td>
+                      <td>${form.password}</td>
                       <td>${form.createTime}</td>
                       <td>${form.updateTime}</td>
                       <td>取消表单</td>
@@ -55,7 +49,7 @@
                         <li><a href="/admin/form/list?page=${currentPage - 1}&size=${size}">上一页</a></li>
                     </#if>
 
-                    <#list 1..movieFormPage.getTotalPages() as index>
+                    <#list 1..formPage.getTotalPages() as index>
                         <#if currentPage == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
@@ -63,7 +57,7 @@
                         </#if>
                     </#list>
 
-                    <#if currentPage gte movieFormPage.getTotalPages()>
+                    <#if currentPage gte formPage.getTotalPages()>
                         <li class="disabled"><a href="#">下一页</a></li>
                     <#else>
                         <li><a href="/admin/form/list?page=${currentPage + 1}&size=${size}">下一页</a></li>

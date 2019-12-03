@@ -1,6 +1,6 @@
-package com.pjqdyd.demo.service;
+package com.pjqdyd.service;
 
-import com.pjqdyd.demo.dataobject.MovieForm;
+import com.pjqdyd.entity.Form;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -10,13 +10,13 @@ import org.springframework.data.domain.Pageable;
 public interface FormService {
 
     //创建表单
-    MovieForm create(MovieForm movieForm);
+    Form create(Form form);
 
     //通过form_id查询表单
-    MovieForm findOne(Integer id);
+    Form findOne(Integer id);
 
-    //通过name分页查询
-    Page<MovieForm> findList(String name, Pageable pageable);
+    //分页查询所有表单
+    Page<Form> findList(Pageable pageable);
 
     //通过form_id删除表单
     void delete(Integer id);

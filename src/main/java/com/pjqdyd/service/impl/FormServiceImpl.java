@@ -1,8 +1,8 @@
-package com.pjqdyd.demo.service.impl;
+package com.pjqdyd.service.impl;
 
-import com.pjqdyd.demo.dao_repository.FormRepository;
-import com.pjqdyd.demo.dataobject.MovieForm;
-import com.pjqdyd.demo.service.FormService;
+import com.pjqdyd.repository.FormRepository;
+import com.pjqdyd.entity.Form;
+import com.pjqdyd.service.FormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,25 +20,23 @@ public class FormServiceImpl implements FormService {
 
     @Override
     @Transactional
-    public MovieForm create(MovieForm movieForm) {
-        return formRepository.save(movieForm);
+    public Form create(Form form) {
+        return formRepository.save(form);
     }
 
     @Override
-    public MovieForm findOne(Integer id) {
+    public Form findOne(Integer id) {
         return formRepository.findOne(id);
-    }
-
-    @Override
-    public Page<MovieForm> findList(String name, Pageable pageable) {
-        return formRepository.findByName(name,pageable);
     }
 
     @Override
     @Transactional
     public void delete(Integer id) {
-
         formRepository.delete(id);
+    }
 
+    @Override
+    public Page<Form> findList(Pageable pageable) {
+        return formRepository.findAll(pageable);
     }
 }

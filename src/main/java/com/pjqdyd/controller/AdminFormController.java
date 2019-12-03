@@ -1,8 +1,7 @@
-package com.pjqdyd.demo.controller;
+package com.pjqdyd.controller;
 
-import com.pjqdyd.demo.dao_repository.FormRepository;
-import com.pjqdyd.demo.dataobject.MovieForm;
-import com.pjqdyd.demo.service.impl.FormServiceImpl;
+import com.pjqdyd.entity.Form;
+import com.pjqdyd.service.impl.FormServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,8 +27,8 @@ public class AdminFormController {
                              @RequestParam(value = "size",defaultValue = "10") Integer size,
                              Map<String,Object> map){
         PageRequest pageRequest = new PageRequest(page-1,size);
-        Page<MovieForm> movieFormPage = formService.findList(pageRequest);
-        map.put("movieFormPage",movieFormPage);
+        Page<Form> formPage = formService.findList(pageRequest);
+        map.put("formPage",formPage);
         map.put("currentPage",page);
         map.put("size",size);
 
