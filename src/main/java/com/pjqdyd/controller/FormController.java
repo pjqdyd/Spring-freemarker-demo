@@ -47,7 +47,7 @@ public class FormController {
             return new ModelAndView("/result/error");
         }
 
-        map.put("url","/form/index");
+        map.put("url","/admin/form/list");
         System.out.println(form.toString());
         return new ModelAndView("/result/success", map);
     }

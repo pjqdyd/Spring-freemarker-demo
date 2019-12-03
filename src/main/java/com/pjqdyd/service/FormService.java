@@ -1,6 +1,7 @@
 package com.pjqdyd.service;
 
 import com.pjqdyd.entity.Form;
+import com.pjqdyd.entity.UpdateForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,6 +23,9 @@ public interface FormService {
     Page<Form> findList(Pageable pageable);
 
     //通过form_id删除表单
-    void delete(Integer id);
+    Form delete(Integer id);
+
+    //更新用户
+    Form update(UpdateForm updateForm);
 
 }

@@ -4,6 +4,10 @@
     <title>用户列表</title>
     <link href="/css/list.css", rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -11,6 +15,9 @@
     <div class="header-box">
         <div><img src="/imgs/list.png" style="width: 50px; height: 50px; margin: 5px;"/></div>
         <strong style="font-size: 30px">学生信息管理面板</strong>
+        <div style="position: absolute; right: 10px">
+            <button class="label label-success" style="font-size: 15px" data-toggle="modal" data-target="#addModal"> + 增加用户 </button>
+        </div>
     </div>
     <div class="container-fluid">
         <div class="row clearfix">
@@ -36,7 +43,13 @@
                             <td>${"******"}</td>
                             <td>${form.createTime}</td>
                             <td>${form.updateTime}</td>
-                            <td>删除</td>
+                            <td>
+                                <button class="label label-info" data-toggle="modal" data-target="#updateModal"
+                                        data-formId="${form.formId}" data-username="${form.username}">修改</button>
+                                <button class="label label-danger" data-toggle="modal" data-target="#deleteModal"
+                                        data-username="${form.username}" data-formid="${form.formId}">删除
+                                </button>
+                            </td>
                         </tr>
                     </#list>
                     </tbody>
@@ -70,6 +83,102 @@
         </ul>
     </div>
 </div>
+
+<!-- 添加用户Modal弹窗 -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="addModalLabel">添加用户</h3>
+            </div>
+            <form method="post" action="http://127.0.0.1:8080/form/register">
+                <div class="modal-body">
+                    <input name="username" class="form-control" type="text" placeholder="请输入用户名"><br><br>
+                    <input name="studentId" class="form-control" type="number" placeholder="请输入学号"><br><br>
+                    <input name="password" class="form-control" type="password" placeholder="请输入密码"><br><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-success">确认添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 修改用户Modal弹窗 -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="updateModalLabel">修改用户</h3>
+            </div>
+            <form method="post" action="http://127.0.0.1:8080/admin/form/update">
+                <div class="modal-body">
+                    <input class="input0 form-control" name="formId"  type="hidden">
+                    <label for="recipient-name" class="control-label">用户名:</label>
+                    <input class="input1 form-control" name="username"  type="text" placeholder="请输入用户名"><br><br>
+                    <label for="recipient-name" class="control-label">学号:</label>
+                    <input class="input2 form-control" name="studentId" type="number" placeholder="请输入学号"><br><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-success">确认修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 删除用户Modal弹窗 -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title" id="removeModalLabel">删除用户</h3>
+            </div>
+            <div class="modal-body">
+                <h4 class="model-username"></h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" onclick="deleteForm()">确认删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
+<script>
+    var deleteId = 0;
+    //删除用户模态弹窗传值
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) ;
+        var username = button.data('username') ;
+        deleteId = button.data('formid') ;
+        var modal = $(this);
+        modal.find('.model-username').text("是否确认删除: " + username);
+    });
+    //删除用户
+    function deleteForm(){
+        window.location.href = "http://127.0.0.1:8080/admin/form/delete/" + deleteId;
+    }
+
+    //更新用户模态弹窗传值
+    $('#updateModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) ;
+        var formId = button.data('formid') ;
+        var username = button.data('username') ;
+        var modal = $(this);
+        modal.find('.modal-title').text('修改用户: ' + formId + "-" + username);
+        modal.find('.input0').val(formId);
+        modal.find('.input1').val(username);
+    });
+
+</script>
 
 </html>

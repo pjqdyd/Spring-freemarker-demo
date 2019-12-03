@@ -1,8 +1,10 @@
 package com.pjqdyd.service.impl;
 
+import com.pjqdyd.entity.UpdateForm;
 import com.pjqdyd.repository.FormRepository;
 import com.pjqdyd.entity.Form;
 import com.pjqdyd.service.FormService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,12 +38,27 @@ public class FormServiceImpl implements FormService {
 
     @Override
     @Transactional
-    public void delete(Integer id) {
-        formRepository.delete(id);
+    public Form delete(Integer id) {
+        Form form = formRepository.findOne(id);
+        if (form != null){
+            formRepository.delete(id);
+            return form;
+        }
+        return null;
     }
 
     @Override
     public Page<Form> findList(Pageable pageable) {
         return formRepository.findAll(pageable);
+    }
+    @Override
+    public Form update(UpdateForm updateForm) {
+        Form form = formRepository.findOne(updateForm.getFormId());
+        if (form != null){
+            form.setUsername(updateForm.getUsername());
+            form.setStudentId(updateForm.getStudentId());
+            return formRepository.save(form);
+        }
+        return null;
     }
 }
